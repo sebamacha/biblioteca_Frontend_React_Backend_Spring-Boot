@@ -1,42 +1,50 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital@1&display=swap");
+.navb {
+  margin: 0px;
+  padding: 0%;
+}
+
+.calendar {
+  margin-left: 50px;
+}
+.titulo-pag {
+  justify-content: center;
   text-align: center;
+  background-color: antiquewhite;
+  margin: 0px;
+  padding-top: 10px;
+  height: 70px;
+}
+.footer {
+  height: 100px; /* 100% de la altura de la ventana */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrar verticalmente el contenido */
+  background-color: #f8f9fa;
+  text-align: center; /* Centrar el texto horizontalmente */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.logo-footer {
+  height: 50px;
+  width: auto;
+  margin: 0 auto; /* Centrar horizontalmente la imagen */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.footer-info p {
+  margin: 0;
+  font-family: "Kanit", sans-serif;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 540px) {
+  .calendar {
+    margin: 0px 25px;
+    align-items: center;
+    align-content: center;
   }
-  to {
-    transform: rotate(360deg);
+
+  .list-libros {
+    width: 80%;
+    display: flex;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

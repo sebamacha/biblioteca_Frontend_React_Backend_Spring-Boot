@@ -1,9 +1,12 @@
 package ar.com.macharette.Biblioteca.controladores;
 
+import ar.com.macharette.Biblioteca.entidades.Autor;
 import ar.com.macharette.Biblioteca.entidades.Editorial;
 import ar.com.macharette.Biblioteca.exepciones.MiException;
 import ar.com.macharette.Biblioteca.servicios.EditorialServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +43,11 @@ public class EditorialControlador {
     }
 
     @GetMapping("/lista")
-    public String listar(ModelMap modelo){
+    public ResponseEntity<List<Editorial>> listar(){
 
         List<Editorial> editoriales = editorialServicio.listarEditoriales();
 
-        modelo.addAttribute("editoriales", editoriales);
-
-        return "editorial_list.html";
+        return new ResponseEntity<>(editoriales, HttpStatus.OK);
     }
 
     @GetMapping("/modificar/{id}")

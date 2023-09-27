@@ -4,6 +4,8 @@ import ar.com.macharette.Biblioteca.entidades.Autor;
 import ar.com.macharette.Biblioteca.exepciones.MiException;
 import ar.com.macharette.Biblioteca.servicios.AutorServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/autor") //localhost:8080/autor
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AutorControlador {
 
     @Autowired
@@ -41,14 +43,13 @@ public class AutorControlador {
     }
 
     @GetMapping("/lista")
-    public String listar(ModelMap modelo){
+    public ResponseEntity<List<Autor>> listar(){
 
         List<Autor> autores = autorServicio.listarAutores();
 
-        modelo.addAttribute("autores", autores);
-
-        return "autor_list.html";
+        return new ResponseEntity<>(autores, HttpStatus.OK);
     }
+
 
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
