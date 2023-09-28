@@ -57,18 +57,19 @@ public class EditorialControlador {
         return "editorial_modificar.html";
     }
 
-    @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, String nombre, ModelMap modelo){
+    @PutMapping("/editorial/modificar/{id}")
+    public ResponseEntity<Editorial> modificar(@PathVariable String id, String nombre) {
         try {
-            editorialServicio.modificarEditorial(id, nombre);
+            Editorial editorial = editorialServicio.modificarEditorial(id, nombre);
 
-            return "redirect:../lista";
+            return ResponseEntity.ok(editorial);
         } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-            return "editorial_modificar.html";
+            return ResponseEntity.badRequest().body(null);
         }
 
     }
+
+
 
 
 

@@ -3,43 +3,38 @@ import EditorialServicio from "../service/EditorialServicio";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
+
 export default function EditorialModificar() {
-  const [editorial, setEditorial] = useState(null);
+  const [nombre, setNombre] = useState("");
   const { id } = useParams(); // Obtén el ID de la URL
   const editorialServicio = new EditorialServicio();
+
   useEffect(() => {
-    editorialServicio.update(id, editorial).then((data) => {
+    editorialServicio.get(id).then((data) => {
       if (data) {
-        setEditorial(data);
+        setNombre(data.nombre);
       } else {
         console.log("No data returned from API");
       }
     });
-  }, [id, editorial, editorialServicio]);
+  }, [id, editorialServicio]);
 
   const handleSubmit = () => {
-    editorialServicio.update(id, editorial).then((data) => {
+    editorialServicio.update(id, { nombre }).then((data) => {
       if (data) {
-        setEditorial(data);
+        setNombre(data.nombre);
       } else {
         console.log("No data returned from API");
       }
     });
   };
 
-  if (!editorial) {
-    return <div>No se encontró el ID</div>;
-  }
-
   return (
     <div>
-      <InputText
-        value={editorial}
-        onChange={(e) => setEditorial(e.target.value)}
-      />
+      <InputText value={nombre} onChange={(e) => setNombre(e.target.value)} />
       <Button
         onClick={handleSubmit}
-        label="Success"
+        label="Guardar"
         severity="success"
         text
         raised

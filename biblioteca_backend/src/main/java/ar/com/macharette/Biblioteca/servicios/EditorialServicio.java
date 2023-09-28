@@ -1,6 +1,5 @@
 package ar.com.macharette.Biblioteca.servicios;
 
-import ar.com.macharette.Biblioteca.entidades.Autor;
 import ar.com.macharette.Biblioteca.entidades.Editorial;
 import ar.com.macharette.Biblioteca.exepciones.MiException;
 import ar.com.macharette.Biblioteca.repositorios.EditorialRepositorio;
@@ -41,7 +40,7 @@ public class EditorialServicio {
     }
 
     @Transactional
-    public void modificarEditorial(String id, String nombre) throws MiException{
+    public Editorial modificarEditorial(String id, String nombre) throws MiException {
         validar(nombre);
 
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
@@ -53,8 +52,12 @@ public class EditorialServicio {
             editorial.setNombre(nombre);
 
             editorialRepositorio.save(editorial);
+
+            return editorial;
         }
+        return null;
     }
+
 
     @Transactional(readOnly = true)
     public Editorial getOne(String id){
