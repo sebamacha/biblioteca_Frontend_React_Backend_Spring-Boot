@@ -1,10 +1,11 @@
 import { Component } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import AutorServicio from "../service/AutorServicio";
+import { Button } from "primereact/button";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import AutorServicio from "./../service/AutorServicio";
 
 export default class Autor extends Component {
   constructor() {
@@ -25,10 +26,24 @@ export default class Autor extends Component {
     });
   }
 
+  onEdit(rowData) {
+    console.log("ID delautor a modificar: ", rowData.id);
+  }
+
   render() {
     if (!this.state.autor) {
       return <div>Loading...</div>;
     }
+
+    const actionBodyTemplate = (rowData) => {
+      return (
+        <Button
+          label="Modificar"
+          className="p-button-secondary"
+          onClick={() => this.onEdit(rowData)}
+        />
+      );
+    };
 
     return (
       <div>
@@ -41,6 +56,7 @@ export default class Autor extends Component {
           tableStyle={{ minWidth: "50rem" }}>
           <Column field="nombre" header="Nombre" />
           <Column field="id" header="Id" />
+          <Column body={actionBodyTemplate} />
         </DataTable>
       </div>
     );

@@ -1,11 +1,11 @@
 import { Component } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Button } from "primereact/button";
 import EditorialServicio from "../service/EditorialServicio";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-
 export default class Editorial extends Component {
   constructor() {
     super();
@@ -24,11 +24,24 @@ export default class Editorial extends Component {
       }
     });
   }
+  onEdit(rowData) {
+    console.log("ID de la editorial a modificar: ", rowData.id);
+  }
 
   render() {
     if (!this.state.editorial) {
       return <div>Loading...</div>;
     }
+
+    const actionBodyTemplate = (rowData) => {
+      return (
+        <Button
+          label="Modificar"
+          className="p-button-secondary"
+          onClick={() => this.onEdit(rowData)}
+        />
+      );
+    };
 
     return (
       <div>
@@ -41,6 +54,7 @@ export default class Editorial extends Component {
           tableStyle={{ minWidth: "50rem" }}>
           <Column field="nombre" header="Nombre" />
           <Column field="id" header="Id" />
+          <Column body={actionBodyTemplate} />
         </DataTable>
       </div>
     );

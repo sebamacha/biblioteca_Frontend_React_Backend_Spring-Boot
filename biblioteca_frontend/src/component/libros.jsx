@@ -1,4 +1,6 @@
 import { Component } from "react";
+import { Button } from "primereact/button";
+
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import LibroServicio from "../service/LibroServicio";
@@ -24,11 +26,23 @@ export default class Libros extends Component {
       }
     });
   }
+  onEdit(rowData) {
+    console.log("ISBN DE LIBRO modificar: ", rowData.isbn);
+  }
 
   render() {
     if (!this.state.libro) {
       return <div>Loading...</div>;
     }
+    const actionBodyTemplate = (rowData) => {
+      return (
+        <Button
+          label="Modificar"
+          className="p-button-secondary"
+          onClick={() => this.onEdit(rowData)}
+        />
+      );
+    };
 
     return (
       <div>
@@ -45,6 +59,7 @@ export default class Libros extends Component {
           <Column field="alta" header="Alta" />
           <Column field="autor.nombre" header="Nombre Autor" />
           <Column field="editorial.nombre" header="Nombre Editorial" />
+          <Column body={actionBodyTemplate} />
         </DataTable>
       </div>
     );

@@ -9,6 +9,7 @@ import Footer from "./component/footer";
 import Libro_Form from "./component/libro_form";
 import Autor from "./component/Autor";
 import Editorial from "./component/Editorial";
+import ModificarEditorial from "./component/EditorialModificar";
 export default class App extends Component {
   render() {
     return (
@@ -21,6 +22,10 @@ export default class App extends Component {
           <Route path="*" element={<PaginaNoEncontrada />} />
           <Route path="/autores" element={<Autor />} />
           <Route path="/editoriales" element={<Editorial />} />
+          <Route
+            path="/editoriales/modificar/:id"
+            element={<ModificarEditorial />}
+          />
         </Routes>
         <Footer />
       </div>
