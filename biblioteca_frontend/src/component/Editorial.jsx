@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import EditorialServicio from "../service/EditorialServicio";
-import ModalEditorial from "./ModalEditorial";
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import EditorialServicio from "./../service/EditorialServicio";
 
-export default function Editorial() {
-  const [editoriales, setEditoriales] = useState([]);
-  const [modal, setModal] = useState(false);
-  const [nombreEditorial, setNombreEditorial] = useState("");
-  const [idEditorial, setIdEditorial] = useState(null);
+const Editorial = () => {
+  const [editorial, setEditorial] = useState(null);
+  const editorialServicio = new EditorialServicio();
 
   useEffect(() => {
-    const editorialServicio = new EditorialServicio();
     editorialServicio.getAll().then((data) => {
       if (data) {
-        setEditoriales(data);
+        setEditorial(data);
       } else {
         console.log("No data returned from API");
       }
@@ -23,9 +22,7 @@ export default function Editorial() {
   }, []);
 
   const onEdit = (rowData) => {
-    setIdEditorial(rowData.id);
-    setNombreEditorial(rowData.nombre);
-    setModal(true);
+    console.log("ID Editorial a modificar: ", rowData.id);
   };
 
   const actionBodyTemplate = (rowData) => {
@@ -38,15 +35,15 @@ export default function Editorial() {
     );
   };
 
-  if (!editoriales) {
+  if (!editorial) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <h1 className="titulo-pag">Listado de Editoriales</h1>
+      <h1 className="titulo-pag">Listado de editorial</h1>
       <DataTable
-        value={editoriales}
+        value={editorial}
         paginator
         rows={5}
         rowsPerPageOptions={[5, 10, 25, 50]}
@@ -55,13 +52,8 @@ export default function Editorial() {
         <Column field="id" header="Id" />
         <Column body={actionBodyTemplate} />
       </DataTable>
-      <ModalEditorial
-        modal={modal}
-        setModal={setModal}
-        nombreEditorial={nombreEditorial}
-        setNombreEditorial={setNombreEditorial}
-        idEditorial={idEditorial}
-      />
     </div>
   );
-}
+};
+
+export default Editorial;

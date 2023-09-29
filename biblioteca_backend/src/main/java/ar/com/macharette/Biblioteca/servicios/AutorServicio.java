@@ -71,7 +71,9 @@ public class AutorServicio {
         autorRepositorio.delete(autor);
 
     }
-
+    public Autor save(Autor autor) {
+        return autorRepositorio.save(autor);
+    }
     private void validar(String nombre) throws MiException {
 
         if (nombre.isEmpty() || nombre == null) {

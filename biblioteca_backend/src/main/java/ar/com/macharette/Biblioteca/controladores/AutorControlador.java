@@ -58,7 +58,7 @@ public class AutorControlador {
         return "autor_modificar.html";
     }
 
-    @PostMapping("/modificar/{id}")
+    @PutMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String nombre, ModelMap modelo){
         try {
             autorServicio.modificarAutor(nombre, id);
@@ -68,9 +68,17 @@ public class AutorControlador {
             modelo.put("error", ex.getMessage());
             return "autor_modificar.html";
         }
-
     }
-
+    @PutMapping("/api/autores/{id}")
+    public ResponseEntity<Autor> updateAutor(@PathVariable String id, @RequestBody Autor autorDetails) {
+        Autor autor = autorServicio.getOne(id);
+        if (autor == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        autor.setNombre(autorDetails.getNombre());
+        final Autor updatedAutor = autorServicio.save(autor);
+        return new ResponseEntity<>(updatedAutor, HttpStatus.OK);
+    }
     // @GetMapping("{id}")
     public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException{
         autorServicio.eliminar(id);
