@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
@@ -8,7 +8,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import AutorServicio from "./../service/AutorServicio";
 
-// Asegúrate de llamar a esta función al inicio de tu aplicación
+//no por que pero anda
 Modal.setAppElement("#root");
 
 const Autor = () => {
@@ -31,7 +31,7 @@ const Autor = () => {
   const onEdit = (rowData) => {
     console.log("ID del autor a modificar: ", rowData.id);
     setAutorSeleccionado(rowData);
-    setNuevoNombre(rowData.nombre); // Establece nuevoNombre al nombre actual del autor
+    setNuevoNombre(rowData.nombre); // Establece nuevoNombre al autor
     setModalAbierto(true);
   };
 
@@ -46,12 +46,12 @@ const Autor = () => {
   };
 
   const handleClick = () => {
-    // Aquí puedes llamar a tu función para actualizar el autor
-    // Por ejemplo:
+    // llamado para actulizar nombre
+
     autorServicio
       .update(autorSeleccionado.id, { nombre: nuevoNombre })
       .then(() => {
-        // Actualiza la lista de autores después de la modificación
+        // refresh de la lista
         autorServicio.getAll().then((data) => {
           if (data) {
             setAutor(data);
@@ -65,7 +65,7 @@ const Autor = () => {
   };
 
   if (!autor) {
-    return <div>Loading...</div>;
+    return <div>No se puede mostras la lista de Autores</div>;
   }
 
   return (

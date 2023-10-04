@@ -4,11 +4,12 @@ import MyMenubar from "./component/MyMenubar";
 import { Routes, Route } from "react-router-dom";
 import Inicio from "./component/inicio";
 import PaginaNoEncontrada from "./component/PaginaNoEncontrada";
-import Libros from "./component/libros";
+import Libros from "./component/Libros";
 import Footer from "./component/footer";
 import Libro_Form from "./component/libro_form";
-import Autor from "./component/Autor";
 import Editorial from "./component/Editorial";
+import Autor from "./component/Autor";
+
 export default class App extends Component {
   render() {
     return (

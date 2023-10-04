@@ -1,5 +1,6 @@
 package ar.com.macharette.Biblioteca.servicios;
 
+import ar.com.macharette.Biblioteca.entidades.Autor;
 import ar.com.macharette.Biblioteca.entidades.Editorial;
 import ar.com.macharette.Biblioteca.exepciones.MiException;
 import ar.com.macharette.Biblioteca.repositorios.EditorialRepositorio;
@@ -28,7 +29,9 @@ public class EditorialServicio {
 
         editorialRepositorio.save(editorial);
     }
-
+    public Editorial save(Editorial editorial) {
+        return editorialRepositorio.save(editorial);
+    }
     @Transactional(readOnly = true)
     public List<Editorial> listarEditoriales() {
 

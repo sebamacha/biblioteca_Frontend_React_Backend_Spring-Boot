@@ -10,6 +10,8 @@ import ar.com.macharette.Biblioteca.servicios.AutorServicio;
 import ar.com.macharette.Biblioteca.servicios.EditorialServicio;
 import ar.com.macharette.Biblioteca.servicios.LibroServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -88,6 +90,17 @@ public class LibroControlador {
 
         return "libro_modificar.html";
     }
+    @PutMapping("/api/libros/{isbn}")
+    public ResponseEntity<Libro> updateLibro(@PathVariable Long isbn, @RequestBody Libro libroDetails) {
+        Libro libro = libroServicio.getOne(isbn);
+        if (libro == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        libro.setTitulo(libroDetails.getTitulo());
+        final Libro updatedLibro = libroServicio.save(libro);
+        return new ResponseEntity<>(updatedLibro, HttpStatus.OK);
+    }
+
 
     @PostMapping("/modificar/{isbn}")
     public String modificar(@PathVariable Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial, ModelMap modelo) {

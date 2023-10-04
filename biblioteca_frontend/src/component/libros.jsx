@@ -1,60 +1,47 @@
 import { useState, useEffect } from "react";
-import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import LibroServicio from "../service/LibroServicio";
+import Modal from "react-modal";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import LibrosServicio from "../service/LibroServicio";
+
+//no por que pero anda
+Modal.setAppElement("#root");
 
 const Libros = () => {
-  const [libro, setLibro] = useState(null);
-  const libroServicio = new LibroServicio();
+  const [libros, setLibros] = useState([]);
+  const libroServicio = new LibrosServicio();
 
   useEffect(() => {
     libroServicio.getAll().then((data) => {
       if (data) {
-        setLibro(data);
+        setLibros(data);
       } else {
         console.log("No data returned from API");
       }
     });
   }, []);
 
-  const onEdit = (rowData) => {
-    console.log("ISBN DE LIBRO modificar: ", rowData.isbn);
-  };
-
-  const botonModificar = (rowData) => {
-    return (
-      <Button
-        label="Modificar"
-        className="p-button-secondary"
-        onClick={() => onEdit(rowData)}
-      />
-    );
-  };
-
-  if (!libro) {
-    return <div>Loading...</div>;
+  if (!libros) {
+    return <div>No se puede mostras la lista de Libros</div>;
   }
 
   return (
     <div>
       <h1 className="titulo-pag">Listado de Libros</h1>
       <DataTable
-        value={libro}
+        value={libros}
         paginator
         rows={5}
         rowsPerPageOptions={[5, 10, 25, 50]}
         tableStyle={{ minWidth: "50rem" }}>
-        <Column field="isbn" header="ISBN" />
-        <Column field="titulo" header="Título" />
+        <Column field="titulo" header="Titulo" />
         <Column field="ejemplares" header="Ejemplares" />
-        <Column field="alta" header="Alta" />
-        <Column field="autor.nombre" header="Nombre Autor" />
-        <Column field="editorial.nombre" header="Nombre Editorial" />
-        <Column body={botonModificar} />
+        <Column field="autor.nombre" header="Autor" />
+        <Column field="editorial.nombre" header="Editorial" />
+        <Column field="isbn" header="Isbn" />
       </DataTable>
     </div>
   );

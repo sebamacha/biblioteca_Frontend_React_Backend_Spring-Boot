@@ -49,7 +49,16 @@ public class EditorialControlador {
 
         return new ResponseEntity<>(editoriales, HttpStatus.OK);
     }
-
+    @PutMapping("/api/editoriales/{id}")
+    public ResponseEntity<Editorial> updateEditorial(@PathVariable String id, @RequestBody Editorial editorialDetails) {
+        Editorial editorial = editorialServicio.getOne(id);
+        if (editorial == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        editorial.setNombre(editorialDetails.getNombre());
+        final Editorial updatedEditorial = editorialServicio.save(editorial);
+        return new ResponseEntity<>(updatedEditorial, HttpStatus.OK);
+    }
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
         modelo.put("editorial", editorialServicio.getOne(id));

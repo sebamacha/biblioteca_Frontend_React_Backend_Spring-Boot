@@ -10,6 +10,6 @@ export default class AutorServicio {
     });
   }
   update(id, data) {
-    return axios.put(`${this.BaseUrl}/api/autores/${id}`, data);
+    return axios.put(`${this.BaseUrl}/api/autores/${id}`, data); //actulizo el nombre d editorial
   }
 }

@@ -117,6 +117,10 @@ public class LibroServicio {
         return libroRepositorio.getOne(isbn);
     }
 
+    public Libro save(Libro libro) {
+        return libroRepositorio.save(libro);
+    }
+
     private void validar(Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial) throws MiException{
         if(isbn == null){
             throw new MiException("el isbn no puede ser nulo");

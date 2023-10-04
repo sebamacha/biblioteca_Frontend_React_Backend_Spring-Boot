@@ -56,7 +56,7 @@ export default function MyMenubar() {
       },
       items: [
         {
-          label: "Nuevo Autor",
+          label: "Nuevo autor",
           command: () => {
             /* comando aquí */
           },
