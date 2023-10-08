@@ -3,18 +3,20 @@ package ar.com.macharette.Biblioteca.controladores;
 import ar.com.macharette.Biblioteca.entidades.Autor;
 import ar.com.macharette.Biblioteca.exepciones.MiException;
 import ar.com.macharette.Biblioteca.servicios.AutorServicio;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/autor") //localhost:8080/autor
-@CrossOrigin(origins = "http://localhost:5173")
 public class AutorControlador {
 
     @Autowired
@@ -26,7 +28,7 @@ public class AutorControlador {
     }
 
 
-    @PostMapping("/registro/")
+    @PostMapping("/registro")
     public String registro(@RequestParam String nombre, ModelMap modelo){
 
         try {
@@ -39,17 +41,18 @@ public class AutorControlador {
             return "autor_form.html";
         }
 
-        return "index.html";
+        return "inicio.html";
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<Autor>> listar(){
+    public String listar(ModelMap modelo){
 
-        List<Autor> autores = autorServicio.listarAutores();
+        List <Autor> autores = autorServicio.listarAutores();
 
-        return new ResponseEntity<>(autores, HttpStatus.OK);
+        modelo.addAttribute("autores", autores);
+
+        return "autor_list.html";
     }
-
 
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
@@ -58,7 +61,7 @@ public class AutorControlador {
         return "autor_modificar.html";
     }
 
-    @PutMapping("/modificar/{id}")
+    @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String nombre, ModelMap modelo){
         try {
             autorServicio.modificarAutor(nombre, id);
@@ -68,21 +71,6 @@ public class AutorControlador {
             modelo.put("error", ex.getMessage());
             return "autor_modificar.html";
         }
-    }
-    @PutMapping("/api/autores/{id}")
-    public ResponseEntity<Autor> updateAutor(@PathVariable String id, @RequestBody Autor autorDetails) {
-        Autor autor = autorServicio.getOne(id);
-        if (autor == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        autor.setNombre(autorDetails.getNombre());
-        final Autor updatedAutor = autorServicio.save(autor);
-        return new ResponseEntity<>(updatedAutor, HttpStatus.OK);
-    }
-    // @GetMapping("{id}")
-    public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException{
-        autorServicio.eliminar(id);
 
-        return "autor_modificar.html";
     }
 }

@@ -14,14 +14,7 @@
     margin-right: 50px;
 }
 
-.containerImg{
-    width: 20%;
-}
 
-.logo{
-    width: 40%;
-    margin: auto;
-}
 
 .tituloBiblioteca{
     width: 80%;
@@ -32,7 +25,7 @@
 }
 
 .header{
-    background-image: url(../img/FondoZoom_2.jpg);
+
     background-size: cover;
     height: 550px;
     display: flex;
@@ -59,11 +52,6 @@
     align-items: center;
 }
 
-.containerFooter{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
 
 .boton{
     background-color: #ffcb00;

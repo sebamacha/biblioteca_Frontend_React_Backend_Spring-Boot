@@ -9,24 +9,19 @@ import ar.com.macharette.Biblioteca.repositorios.LibroRepositorio;
 import ar.com.macharette.Biblioteca.servicios.AutorServicio;
 import ar.com.macharette.Biblioteca.servicios.EditorialServicio;
 import ar.com.macharette.Biblioteca.servicios.LibroServicio;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+@Controller
 @RequestMapping("/libro")
-@CrossOrigin(origins = "http://localhost:5173")
 public class LibroControlador {
 
     @Autowired
@@ -51,10 +46,10 @@ public class LibroControlador {
     @PostMapping("/registro")
     public String registro(@RequestParam(required = false) Long isbn, @RequestParam String titulo,
                            @RequestParam(required = false) Integer ejemplares, @RequestParam String idAutor,
-                           @RequestParam String idEditorial, ModelMap modelo) {
+                           @RequestParam String idEditorial, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
         try {
 
-            libroServicio.crearLibro(isbn, titulo, ejemplares, idAutor, idEditorial);
+            libroServicio.crearLibro(archivo,isbn, titulo, ejemplares, idAutor, idEditorial);
 
             modelo.put("exito", "El Libro fue cargado correctamente!");
 
@@ -68,12 +63,15 @@ public class LibroControlador {
 
             return "libro_form.html";  // volvemos a cargar el formulario.
         }
-        return "index.html";
+        return "inicio.html";
     }
 
     @GetMapping("/lista")
-    public List<Libro> listar() {
-        return libroServicio.listarLibros();
+    public String listar(ModelMap modelo) {
+        List<Libro> libros = libroServicio.listarLibros();
+        modelo.addAttribute("libros", libros);
+
+        return "libro_list";
     }
 
 
@@ -90,35 +88,22 @@ public class LibroControlador {
 
         return "libro_modificar.html";
     }
-    @PutMapping("/api/libros/{isbn}")
-    public ResponseEntity<Libro> updateLibro(@PathVariable Long isbn, @RequestBody Libro libroDetails) {
-        Libro libro = libroServicio.getOne(isbn);
-        if (libro == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        libro.setTitulo(libroDetails.getTitulo());
-        final Libro updatedLibro = libroServicio.save(libro);
-        return new ResponseEntity<>(updatedLibro, HttpStatus.OK);
-    }
-
 
     @PostMapping("/modificar/{isbn}")
-    public String modificar(@PathVariable Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial, ModelMap modelo) {
+    public String modificar(@PathVariable Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial, ModelMap modelo, MultipartFile archivo) {
         try {
-
             List<Autor> autores = autorServicio.listarAutores();
             List<Editorial> editoriales = editorialServicio.listarEditoriales();
+
             modelo.addAttribute("autores", autores);
             modelo.addAttribute("editoriales", editoriales);
 
-
-            libroServicio.modificarLibro(isbn, titulo, ejemplares, idAutor, idEditorial);
+            libroServicio.modificarLibro(archivo, isbn, titulo, ejemplares, idAutor, idEditorial);
 
 
             return "redirect:../lista";
 
-        } catch (MiException ex ) {
-
+        } catch (MiException ex) {
             List<Autor> autores = autorServicio.listarAutores();
             List<Editorial> editoriales = editorialServicio.listarEditoriales();
 
@@ -131,7 +116,4 @@ public class LibroControlador {
         }
 
     }
-
-
-
 }

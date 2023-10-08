@@ -14,14 +14,6 @@
     margin-right: 50px;
 }
 
-.containerImg{
-    width: 20%;
-}
-
-.logo{
-    width: 40%;
-    margin: auto;
-}
 
 
 .mensajeExito{
@@ -65,8 +57,3 @@
     box-shadow: none;
 }
 
-.containerFooter{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace= "/fragments/head :: head"> </head>
+
+    <body>
+    <nav th:replace="fragments/navbar :: navbar"></nav>
+
+        <header class="header">
+            <section class="contenedorMain">
+                <div class="tituloBiblioteca">
+                    <a class="navbar-brand" href="#"> DASHBOARD DE BIBLIOTECA</a>
+                    <div class="container contenedorLibros">
+                        <!--                    si la sesion no es nula mostramos el nombre de ususario -->
+                        <p class="tituloLibros" th:if="${session.usuariosession != null}" th:text=" 'Hola de vuelta '+ ${session.usuariosession.nombre} "></p>
+                    </div>
+                    <div class="container">
+                        <a th:if="${session.usuariosession.imagen != null}" class="d-flex align-items-center">
+                            <img class="logo"  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" >
+                        </a>
+                    </div>
+                </div>
+
+
+            </section>
+        </header>
+s
+
+
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <footer style="background-color: black; color: white; width: 100%; height: 50px; position: fixed; bottom: 0; margin-top: 10px; display: flex; align-items: center; justify-content: center;">
+        &copy; 2023 Sebastian Macharette. Todos los derechos reservados.
+    </footer>
+    </body>
+
+</html>

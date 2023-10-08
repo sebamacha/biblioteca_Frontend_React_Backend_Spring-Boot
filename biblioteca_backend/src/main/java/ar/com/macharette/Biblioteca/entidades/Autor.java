@@ -1,8 +1,9 @@
 package ar.com.macharette.Biblioteca.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -32,4 +33,6 @@ public class Autor {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+
 }

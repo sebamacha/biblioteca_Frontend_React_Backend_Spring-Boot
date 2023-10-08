@@ -1,10 +1,12 @@
 package ar.com.macharette.Biblioteca.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Entity
 public class Libro {
@@ -14,11 +16,15 @@ public class Libro {
     private Integer ejemplares;
 
     private LocalDate alta;
+
     @ManyToOne
     private Autor autor;
 
     @ManyToOne
     private Editorial editorial;
+
+    @OneToOne
+    private Imagen imagen;
 
     public Libro() {
     }
@@ -51,10 +57,9 @@ public class Libro {
         return alta;
     }
 
-    public void setAlta(LocalDate alta) {
-        this.alta = alta;
+    public void setAlta(Date alta) {
+        this.alta = alta.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
-
     public Autor getAutor() {
         return autor;
     }
@@ -69,5 +74,13 @@ public class Libro {
 
     public void setEditorial(Editorial editorial) {
         this.editorial = editorial;
+    }
+
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
     }
 }

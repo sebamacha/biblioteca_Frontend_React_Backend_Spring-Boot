@@ -14,7 +14,7 @@ public class MyConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173") // Aquí puedes especificar el dominio de tu servidor de frontend
+                        .allowedOrigins("http://localhost:5173") // dominio frontend
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true);

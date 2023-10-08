@@ -10,17 +10,10 @@
     font-weight: 700;
 }
 
-.containerImg{
-    width: 20%;
-}
 
-.logo{
-    width: 40%;
-    margin: auto;
-}
 
 .main{
-    background-image: url(../img/FondoZoom.jpg);
+   ;
     background-size: cover;
     height: 400px;
     display: flex;
